@@ -2,6 +2,17 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
 
+services:
+    my_phpcr_odm_config:
+        class: %doctrine_phpcr.odm.configuration.class%
+        public: false
+        abstract: true
+        calls:
+            - ['setDocumentClassMapper', [ @my_phpcr_odm_mapper ] ]
+
+    my_phpcr_odm_mapper:
+        class: Doctrine\ODM\PHPCR\DocumentClassMapper
+
 framework:
     #esi:             ~
     translator:      { fallback: en }
@@ -57,13 +68,42 @@ doctrine:
 doctrine_phpcr:
     # configure the PHPCR session
     session:
-        backend: %phpcr_backend%
-        workspace: %phpcr_workspace%
-        username: %phpcr_user%
-        password: %phpcr_pass%
+        sessions:
+            default:
+                backend: %phpcr_backend%
+                workspace: %phpcr_workspace%
+                username: %phpcr_user%
+                password: %phpcr_pass%
+            website:
+                backend:
+                  type: jackrabbit
+                  url: "http://192.168.80.124:8088/.davex/"
+                workspace: website
+                username: %phpcr_user%
+                password: %phpcr_pass%
+            dms:
+                backend:
+                  type: jackrabbit
+                  url: "http://192.168.80.124:8088/.davex/"
+                workspace: dms
+                username: %phpcr_user%
+                password: %phpcr_pass%
     # enable the ODM layer
     odm:
-        auto_mapping: true
+        document_managers:
+            default:
+                session: default
+#                configuration_id: my_phpcr_odm_config
+                mappings:
+                    SandboxMainBundle: ~
+                    SymfonyCmfContentBundle: ~
+                    SymfonyCmfMenuBundle: ~
+                    SymfonyCmfMultilangContentBundle: ~
+                    SymfonyCmfChainRoutingBundle: ~
+            website:
+                session: website
+            dms:
+                session: dms
         auto_generate_proxy_classes: %kernel.debug%
         locales:
             en:
@@ -78,7 +118,6 @@ doctrine_phpcr:
                 - fr
                 - en
                 - de
-
 
 symfony_cmf_content: ~
 
@@ -126,8 +165,6 @@ sonata_admin:
             # display a dashboard block
             - { position: right, type: sonata.admin.block.admin_list }
             - { position: left, type: symfony_cmf_phpcr_browser.tree_block }
-
-
 
 fos_js_routing:
     routes_to_expose:

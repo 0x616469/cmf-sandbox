@@ -27,6 +27,12 @@ test:
     pattern:  /hello
     defaults: { _controller: SandboxTestBundle:Test:index }
 
+test2:
+    pattern:  /magnolia/{article}
+    defaults: { _controller: SandboxTestBundle:Test:magnolia, article: article }
+    requirements:
+        article: .+
+
 image_upload:
     pattern: /image/upload/
     defaults: { _controller: sandbox_main.image_controller:uploadAction, _format: json }
