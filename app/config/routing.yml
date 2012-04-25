@@ -44,3 +44,13 @@ vie:
 
 vie_asset_management:
     resource: "@LiipVieBundle/Resources/config/routing/asset_search.xml"
+
+magnolia:
+    pattern: /magnolia
+    defaults: { _controller: SandboxTestBundle:Test:magnolia }
+
+magnolia_write:
+    pattern: /magnolia_write/{contentPath}
+    defaults: { _controller: SandboxTestBundle:Test:magnoliaWrite }
+    requirements:
+        contentPath: '[A-Za-z0-9\.\/\-]+'

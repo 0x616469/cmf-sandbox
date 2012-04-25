@@ -57,10 +57,19 @@ doctrine:
 doctrine_phpcr:
     # configure the PHPCR session
     session:
-        backend: %phpcr_backend%
-        workspace: %phpcr_workspace%
-        username: %phpcr_user%
-        password: %phpcr_pass%
+        sessions:
+            default:
+                backend: %phpcr_backend%
+                workspace: %phpcr_workspace%
+                username: %phpcr_user%
+                password: %phpcr_pass%
+            website:
+                backend:
+                    type: jackrabbit
+                    url: http://192.168.80.124:8088/.davex/
+                workspace: website
+                username: %phpcr_user%
+                password: %phpcr_pass%
     # enable the ODM layer
     odm:
         auto_mapping: true
