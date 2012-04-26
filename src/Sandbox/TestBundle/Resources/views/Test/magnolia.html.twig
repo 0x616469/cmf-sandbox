@@ -1,31 +1,3 @@
-{#{% extends "SandboxMainBundle::skeleton.html.twig" %}#}
-
-{#{% block content %}#}
-{#&#123;&#35;<div class="articleContainer">&#35;&#125;#}
-    {#&#123;&#35;<p>{{ content }}</p>&#35;&#125;#}
-{#&#123;&#35;</div>&#35;&#125;#}
-
-
-{#<div xmlns:sioc="http://rdfs.org/sioc/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/"#}
-     {#typeof="sioc:Post"#}
-     {#about="{{ page.path }}"#}
-     {#class="articleContainer">#}
-
-    {#<ul rel="dc:subject" property="dc:subject">#}
-        {#&#123;&#35;{% for subject in page.tags %}&#35;&#125;#}
-        {#&#123;&#35;<li about="{{ subject|replace({'<': '', '>': ''}) }}"></li>&#35;&#125;#}
-        {#&#123;&#35;{% endfor %}&#35;&#125;#}
-    {#</ul>#}
-    {#<h1 id="main_title" property="dcterms:title">{{ page.title|raw }}</h1>#}
-    {#<div property="sioc:content">#}
-        {#{{ page.content|raw }}#}
-    {#</div>#}
-{#</div>#}
-
-
-{#{% endblock %}#}
-
-
 {% extends "SandboxMainBundle::skeleton.html.twig" %}
 
 {% block content %}
@@ -47,7 +19,10 @@
 {{ parent() }}
 {% endblock %}
 
-{#{% block bottom_scripts %}#}
-{#console.log("hello ");#}
-{#{{ parent() }}#}
-{#{% endblock %}#}
+{% block bottom_scripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        // TODO: vie_phpcr_path has to be overridden here
+        //vie_phpcr_path = '{{ path('liip_vie_phpcr_odm_put_document', {'id': ''}) }}';
+    </script>
+{% endblock %}
