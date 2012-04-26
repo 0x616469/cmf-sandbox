@@ -1,0 +1,12 @@
+{% extends "SandboxMainBundle::skeleton.html.twig" %}
+
+{% block content %}
+<div>
+    <h1>{{ content.subtitle|raw }}!</h1>
+
+    <p>{{ node.getPropertiesValues.abstract|raw }}</p>
+    {{ content.text|raw }}
+
+    <img src="data:{{ img['jcr:mimeType'] }};base64,{{ img['jcr:data'] }}">
+</div>
+{% endblock %}

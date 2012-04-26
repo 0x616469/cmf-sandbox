@@ -11,7 +11,7 @@ class TestController extends Controller
         return $this->render('SandboxTestBundle:Test:index.html.twig', array('title'=>'Normal Symfony Route'));
     }
 
-    public function magnoliaAction($article)
+    public function magnoliaArticleAction($article)
     {
         $website = $this->get('doctrine_phpcr')->getConnection('website');
 
@@ -35,7 +35,7 @@ class TestController extends Controller
                 $img = $imgNode->getPropertiesValues();
                 $img['jcr:data'] = base64_encode(stream_get_contents($imgNode->getProperty('jcr:data')->getBinary()));
 
-                return $this->render('SandboxTestBundle:Test:magnolia.html.twig', array(
+                return $this->render('SandboxTestBundle:Test:magnoliaArticle.html.twig', array(
                         'node' => $node,
                         'article' => $node->getPropertiesValues(),
                         'content' => $properties,
@@ -47,4 +47,37 @@ class TestController extends Controller
 
         throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('Could not map content');
     }
+
+    public function magnoliaAction()
+    {
+        $path = '/demo-project/about/subsection-articles/large-article/content';
+
+        $session = $this->get('doctrine_phpcr')->getConnection('website');
+        $node = $session->getNode($path);
+        $content = $node->getPropertyValue('phpcr');
+
+        return $this->render('SandboxTestBundle:Test:magnolia.html.twig', array(
+            'title'=>'Normal Symfony Route',
+            'page' => array(
+                'tags' => array("hulla", "holla"),
+                'path' => $path,
+                'title' => 'mytitle',
+                'content' => $content
+            )
+        ));
+    }
+
+    public function magnoliaWriteAction ($contentPath)
+    {
+        $params = $this->getRequest()->request->all();
+
+        $session = $this->get('doctrine_phpcr')->getConnection('website');
+        $node = $session->getNode('/' . $contentPath);
+
+        $node->setProperty('phpcr', $params['<http://rdfs.org/sioc/ns#content>']);
+        $session->save();
+
+        return new \Symfony\Component\HttpFoundation\Response();
+    }
+
 }
