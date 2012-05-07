@@ -1,0 +1,21 @@
+magnolia_odm:
+    pattern: /magnolia_odm
+    defaults: { _controller: sandbox_magnolia.controller:magnoliaOdmAction }
+
+magnolia_edit:
+    pattern: /magnolia_edit
+    defaults: { _controller: SandboxMagnoliaBundle:Magnolia:magnoliaEdit }
+
+magnolia_article:
+    pattern:  /magnolia/{article}
+    defaults:
+        _controller: SandboxMagnoliaBundle:Magnolia:magnoliaArticle
+        article: about/subsection-articles/large-article
+    requirements:
+        article: .+
+
+magnolia_write:
+    pattern: /magnolia_write/{id}
+    defaults: { _controller: SandboxMagnoliaBundle:Magnolia:magnoliaWrite }
+    requirements:
+        contentPath: '[A-Za-z0-9\.\/\-]+'

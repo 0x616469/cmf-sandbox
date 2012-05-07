@@ -16,6 +16,9 @@ _sonata_admin:
     type: sonata_admin
     prefix: /admin
 
+magnolia:
+    resource: '@SandboxMagnoliaBundle/Resources/config/routing.yml'
+
 fos_js_routing:
     resource: @FOSJsRoutingBundle/Resources/config/routing/routing.xml
 
@@ -26,12 +29,6 @@ phpcrbrowser:
 test:
     pattern:  /hello
     defaults: { _controller: SandboxTestBundle:Test:index }
-
-test2:
-    pattern:  /magnolia/{article}
-    defaults: { _controller: SandboxTestBundle:Test:magnoliaArticle, article: article }
-    requirements:
-        article: .+
 
 image_upload:
     pattern: /image/upload/
@@ -50,13 +47,3 @@ vie:
 
 vie_asset_management:
     resource: "@LiipVieBundle/Resources/config/routing/asset_search.xml"
-
-magnolia:
-    pattern: /magnolia
-    defaults: { _controller: SandboxTestBundle:Test:magnolia }
-
-magnolia_write:
-    pattern: /magnolia_write/{contentPath}
-    defaults: { _controller: SandboxTestBundle:Test:magnoliaWrite }
-    requirements:
-        contentPath: '[A-Za-z0-9\.\/\-]+'
